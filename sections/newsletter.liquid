@@ -1,0 +1,78 @@
+<section class="section-spacing newsletter-section" aria-labelledby="NewsletterHeading-{{ section.id }}">
+  <div class="container">
+    <div class="newsletter-box">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="section-eyebrow">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      <h2 id="NewsletterHeading-{{ section.id }}" class="section-title">{{ section.settings.heading }}</h2>
+      {%- if section.settings.subheading != blank -%}
+        <p class="section-subtitle">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+
+      {% form 'customer', class: 'newsletter-form' %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input 
+          type="email" 
+          name="contact[email]" 
+          class="newsletter-input" 
+          value="{{ form.email }}" 
+          placeholder="{{ section.settings.placeholder | default: 'Enter your email' }}" 
+          required 
+          autocorrect="off" 
+          autocapitalize="off" 
+          aria-label="Email address"
+        >
+        <button type="submit" class="btn btn-primary btn-lg">{{ section.settings.button_text | default: 'SUBSCRIBE' }}</button>
+
+        {%- if form.posted_successfully? -%}
+          <p class="newsletter-disclaimer" style="color: var(--color-success); font-weight: 600;">Thank you for subscribing!</p>
+        {%- endif -%}
+      {% endform %}
+
+      <p class="newsletter-disclaimer">By subscribing, you agree to receive promotional communications. Unsubscribe anytime.</p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "JOIN THE COMMUNITY"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "EXCLUSIVE ACCESS & DROPS"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Be the first to discover new collections, exclusive drops and special offers."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Input Placeholder",
+      "default": "Enter your email"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Label",
+      "default": "SUBSCRIBE"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter"
+    }
+  ]
+}
+{% endschema %}

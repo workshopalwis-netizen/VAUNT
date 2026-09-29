@@ -1,0 +1,116 @@
+<header class="site-header-wrapper">
+  <div class="container">
+    <div class="site-header">
+      
+      <!-- Mobile Hamburger -->
+      <button type="button" class="action-btn mobile-menu-trigger" aria-label="Open menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+
+      <!-- Brand Logo -->
+      <a href="{{ routes.root_url }}" class="site-logo">
+        {%- if section.settings.logo != blank -%}
+          <img src="{{ section.settings.logo | image_url: width: 300 }}" alt="{{ shop.name }}" style="max-height: {{ section.settings.logo_height }}px;">
+        {%- else -%}
+          {{ shop.name | default: 'VAUNT' }}<span class="accent-dot"></span>
+        {%- endif -%}
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="desktop-nav" aria-label="Primary Navigation">
+        <ul class="nav-list">
+          {%- for link in linklists[section.settings.menu].links -%}
+            <li class="nav-item">
+              <a href="{{ link.url }}" class="nav-link {% if link.title contains 'SALE' or link.title contains 'Sale' %}is-sale{% endif %}">
+                {{ link.title }}
+                {%- if link.links != blank -%}
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                {%- endif -%}
+              </a>
+
+              {%- if link.links != blank -%}
+                <div class="mega-menu">
+                  <div class="container">
+                    <div class="mega-menu-inner">
+                      {%- for childlink in link.links -%}
+                        <div>
+                          <h4 class="mega-menu-col-title">{{ childlink.title }}</h4>
+                          {%- if childlink.links != blank -%}
+                            <ul class="mega-menu-list">
+                              {%- for grandchild in childlink.links -%}
+                                <li>
+                                  <a href="{{ grandchild.url }}" class="mega-menu-link">{{ grandchild.title }}</a>
+                                </li>
+                              {%- endfor -%}
+                            </ul>
+                          {%- endif -%}
+                        </div>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                </div>
+              {%- endif -%}
+            </li>
+          {%- else -%}
+            <!-- Fallback Static Nav Links if menu is empty -->
+            <li class="nav-item"><a href="/collections/all?filter=new" class="nav-link">NEW ARRIVALS</a></li>
+            <li class="nav-item"><a href="/collections/men" class="nav-link">MEN</a></li>
+            <li class="nav-item"><a href="/collections/women" class="nav-link">WOMEN</a></li>
+            <li class="nav-item"><a href="/collections" class="nav-link">COLLECTIONS</a></li>
+            <li class="nav-item"><a href="/collections/all?filter=bestsellers" class="nav-link">BEST SELLERS</a></li>
+            <li class="nav-item"><a href="/collections/all?filter=sale" class="nav-link is-sale">SALE</a></li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+
+      <!-- Actions -->
+      <div class="header-actions">
+        <button type="button" class="action-btn search-trigger" aria-label="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </button>
+        {%- if shop.customer_accounts_enabled -%}
+          <a href="{{ routes.account_url }}" class="action-btn" aria-label="Account">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          </a>
+        {%- endif -%}
+        <a href="#" class="action-btn" onclick="Vaunt.showToast('Wishlist active'); return false;" aria-label="Wishlist">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+          <span class="action-badge wishlist-badge is-empty">0</span>
+        </a>
+        <button type="button" class="action-btn cart-drawer-trigger" aria-label="Shopping Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+          <span class="action-badge cart-badge is-empty">0</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Custom Brand Logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "label": "Logo Height (px)",
+      "min": 20,
+      "max": 60,
+      "default": 32,
+      "step": 2
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Main Navigation Menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}

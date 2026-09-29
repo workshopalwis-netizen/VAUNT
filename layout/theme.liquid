@@ -1,0 +1,66 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{{ settings.color_primary }}">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {% render 'meta-tags' %}
+
+    {{ content_for_header }}
+
+    <!-- Theme Stylesheets -->
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+    {{ 'sections.css' | asset_url | stylesheet_tag }}
+    {{ 'components.css' | asset_url | stylesheet_tag }}
+
+    <style>
+      :root {
+        --color-primary: {{ settings.color_primary | default: '#0D0D0D' }};
+        --color-accent: {{ settings.color_accent | default: '#C5A880' }};
+        --color-background: {{ settings.color_background | default: '#FAFAFA' }};
+        --color-surface: {{ settings.color_surface | default: '#F4F4F2' }};
+      }
+    </style>
+  </head>
+
+  <body class="template-{{ template.name }}">
+    <a class="sr-only" href="#MainContent">Skip to content</a>
+
+    {% section 'announcement-bar' %}
+    {% section 'header' %}
+
+    <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% section 'footer' %}
+
+    <!-- Reusable Modals & Drawers -->
+    {% render 'cart-drawer' %}
+    {% render 'quick-view-modal' %}
+    {% render 'search-overlay' %}
+    {% render 'size-guide-modal' %}
+
+    <!-- Theme Scripts -->
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+  </body>
+</html>

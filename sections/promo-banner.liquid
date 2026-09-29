@@ -1,0 +1,57 @@
+<section class="promo-banner" aria-label="{{ section.settings.heading }}">
+  <div class="promo-banner-bg"></div>
+  <div class="promo-banner-content">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="promo-banner-eyebrow">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+    <h2 class="promo-banner-title">{{ section.settings.heading }}</h2>
+    {%- if section.settings.subheading != blank -%}
+      <p class="promo-banner-subtitle">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+    {%- if section.settings.button_label != blank -%}
+      <a href="{{ section.settings.button_link }}" class="btn btn-accent btn-lg">{{ section.settings.button_label }}</a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Promotional Banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "MID-SEASON PRIVILEGE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main Heading",
+      "default": "UP TO 40% OFF"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "SELECTED STYLES"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "SHOP SALE"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Promotional Banner"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,25 @@
+{
+  "name": "Product",
+  "sections": {
+    "main_product": {
+      "type": "main-product",
+      "settings": {
+        "enable_sticky_info": true,
+        "show_rating": true,
+        "show_dynamic_checkout": true,
+        "show_share_buttons": false
+      }
+    },
+    "recommendations": {
+      "type": "trending-carousel",
+      "settings": {
+        "eyebrow": "COMPLETE THE LOOK",
+        "heading": "YOU MAY ALSO LIKE"
+      }
+    }
+  },
+  "order": [
+    "main_product",
+    "recommendations"
+  ]
+}

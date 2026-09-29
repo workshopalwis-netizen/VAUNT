@@ -1,0 +1,135 @@
+<section class="container section-spacing">
+  <div class="pdp-layout">
+    
+    <!-- Gallery -->
+    <div class="pdp-gallery-wrap">
+      <div class="pdp-thumbnails">
+        {%- for media in product.media -%}
+          <button type="button" class="pdp-thumb-btn {% if forloop.first %}is-active{% endif %}" onclick="ProductApp.switchImage('{{ media | image_url: width: 1200 }}', this)">
+            <img src="{{ media | image_url: width: 160 }}" alt="{{ media.alt | escape }}" loading="lazy">
+          </button>
+        {%- endfor -%}
+      </div>
+      <div class="pdp-main-media">
+        <img src="{{ product.featured_media | image_url: width: 1200 }}" alt="{{ product.title | escape }}" id="pdpMainImage">
+      </div>
+    </div>
+
+    <!-- Product Info Form -->
+    <div class="pdp-info">
+      
+      <div class="pdp-header-rating">
+        <span class="rating-stars">★★★★★</span>
+        <span>(Verified Editorial Fit)</span>
+      </div>
+
+      <h1 class="pdp-title">{{ product.title }}</h1>
+
+      <div class="pdp-pricing-wrap">
+        <span class="pdp-price">{{ product.price | money }}</span>
+        {%- if product.compare_at_price > product.price -%}
+          <span class="pdp-compare">{{ product.compare_at_price | money }}</span>
+          <span class="pdp-discount-badge">SALE</span>
+        {%- endif -%}
+      </div>
+
+      <div class="pdp-shipping-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+        <span>Complimentary courier on orders over LKR 10,000</span>
+      </div>
+
+      {% form 'product', product, id: 'shopifyProductForm' %}
+        
+        <!-- Variants -->
+        {%- unless product.has_only_default_variant -%}
+          {%- for option in product.options_with_values -%}
+            <div class="variant-option-group" style="margin-bottom: 16px;">
+              <div class="variant-label">
+                <span>{{ option.name }}: <strong>{{ option.selected_value }}</strong></span>
+                {%- if option.name == 'Size' or option.name == 'size' -%}
+                  <button type="button" onclick="Vaunt.openSizeGuide()" style="text-decoration: underline; font-size: 11px; text-transform: uppercase;">Size Guide</button>
+                {%- endif -%}
+              </div>
+              
+              <div class="size-options">
+                {%- for value in option.values -%}
+                  <button type="button" class="size-btn {% if option.selected_value == value %}is-active{% endif %}">
+                    {{ value }}
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        {%- endunless -%}
+
+        <!-- Action Row -->
+        <div class="pdp-actions-row">
+          <button type="submit" name="add" class="btn btn-primary pdp-atc-btn">
+            ADD TO CART
+          </button>
+          <button type="button" class="pdp-wish-btn" aria-label="Save to Wishlist" onclick="Vaunt.toggleWishlist('{{ product.id }}')">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+          </button>
+        </div>
+
+        {%- if section.settings.show_dynamic_checkout -%}
+          <div style="margin-top: 12px;">
+            {{ form | payment_button }}
+          </div>
+        {%- endif -%}
+
+      {% endform %}
+
+      <!-- Accordions -->
+      <div class="accordion-group">
+        
+        <div class="accordion-item is-open">
+          <button type="button" class="accordion-trigger">
+            <span>DESCRIPTION</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="accordion-icon"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="accordion-content">
+            {{ product.description }}
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-trigger">
+            <span>SHIPPING & DELIVERY</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="accordion-icon"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="accordion-content">
+            <p>Orders over LKR 10,000 enjoy complimentary priority courier shipping across Sri Lanka. Orders arrive within 2-3 business days.</p>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button type="button" class="accordion-trigger">
+            <span>RETURNS & EXCHANGES</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="accordion-icon"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+          <div class="accordion-content">
+            <p>14-day hassle-free exchange policy on unworn items with original security tags attached.</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Main Product",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Show Dynamic Checkout Button (Buy It Now)",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart — VAUNT ATELIER</title>
+  <link rel="stylesheet" href="assets/base.css">
+  <link rel="stylesheet" href="assets/theme.css">
+  <link rel="stylesheet" href="assets/sections.css">
+  <link rel="stylesheet" href="assets/components.css">
+  <style>
+    .cart-page-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--spacing-2xl);
+      margin-top: var(--spacing-xl);
+    }
+    @media (min-width: 992px) {
+      .cart-page-layout {
+        grid-template-columns: 1.8fr 1fr;
+      }
+    }
+    .cart-summary-box {
+      background-color: var(--color-surface);
+      border-radius: var(--radius-sm);
+      padding: var(--spacing-xl);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+      position: sticky;
+      top: calc(var(--header-height) + 20px);
+    }
+    .summary-title {
+      font-family: var(--font-family-display);
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-bold);
+      text-transform: uppercase;
+      padding-bottom: var(--spacing-sm);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: var(--font-size-sm);
+    }
+    .summary-total {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-extrabold);
+      border-top: 1px solid var(--color-border);
+      padding-top: var(--spacing-md);
+      margin-top: var(--spacing-xs);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header-wrapper">
+    <div class="container">
+      <div class="site-header">
+        <a href="index.html" class="site-logo">VAUNT<span class="accent-dot"></span></a>
+        <nav class="desktop-nav">
+          <ul class="nav-list">
+            <li class="nav-item"><a href="collection.html?filter=new" class="nav-link">NEW ARRIVALS</a></li>
+            <li class="nav-item"><a href="collection.html?gender=men" class="nav-link">MEN</a></li>
+            <li class="nav-item"><a href="collection.html?gender=women" class="nav-link">WOMEN</a></li>
+            <li class="nav-item"><a href="collection.html" class="nav-link">COLLECTIONS</a></li>
+          </ul>
+        </nav>
+        <div class="header-actions">
+          <a href="index.html" class="action-btn">Continue Shopping &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="MainContent" class="container section-spacing">
+    <div class="section-header">
+      <span class="section-eyebrow">ORDER REVIEW</span>
+      <h1 class="section-title">YOUR SHOPPING CART</h1>
+    </div>
+
+    <!-- Free Shipping Progress -->
+    <div class="shipping-progress-container" style="border-radius: var(--radius-xs); margin-bottom: var(--spacing-xl);">
+      <div class="shipping-progress-text">
+        <span>You are <strong>LKR 10,000</strong> away from <strong>FREE SHIPPING</strong></span>
+      </div>
+      <div class="shipping-progress-bar">
+        <div class="shipping-progress-fill"></div>
+      </div>
+    </div>
+
+    <div class="cart-page-layout">
+      <!-- Left: Cart Items Table -->
+      <div>
+        <div class="cart-empty" id="pageCartEmpty" style="display: none; padding: 60px 0;">
+          <h3 class="cart-empty-title">Your cart is currently empty</h3>
+          <p class="cart-empty-desc">Explore our latest arrivals to begin curating your wardrobe.</p>
+          <a href="collection.html" class="btn btn-primary" style="margin-top: 16px;">EXPLORE COLLECTION</a>
+        </div>
+        <div class="cart-items-list" id="pageCartList" style="display: flex;"></div>
+      </div>
+
+      <!-- Right: Summary Box -->
+      <div>
+        <div class="cart-summary-box">
+          <h3 class="summary-title">ORDER SUMMARY</h3>
+          
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="pageCartSubtotal">LKR 0</span>
+          </div>
+
+          <div class="summary-row">
+            <span>Estimated Shipping</span>
+            <span id="pageShippingNotice" style="color: var(--color-success); font-weight: 600;">FREE</span>
+          </div>
+
+          <div class="summary-row summary-total">
+            <span>Total</span>
+            <span id="pageCartTotal">LKR 0</span>
+          </div>
+
+          <p style="font-size: 11px; color: var(--color-foreground-muted); line-height: 1.5;">
+            By clicking "Proceed to Checkout", your order will be securely routed through Shopify encrypted payment gateways.
+          </p>
+
+          <button type="button" class="btn btn-primary btn-block btn-lg" onclick="Vaunt.showToast('Connecting to Shopify Secure Gateway...', 'accent')">
+            PROCEED TO CHECKOUT
+          </button>
+
+          <a href="collection.html" style="text-align: center; font-size: 12px; text-decoration: underline; text-transform: uppercase; font-weight: 600;">
+            &larr; Return to Store
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div class="footer-bottom-inner">
+          <p>&copy; 2026 VAUNT ATELIER. ALL RIGHTS RESERVED.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/catalog-data.js"></script>
+  <script src="assets/theme.js"></script>
+  <script>
+    // Synchronize page cart with central Vaunt cart
+    function syncPageCart() {
+      const emptyBox = document.getElementById('pageCartEmpty');
+      const listBox = document.getElementById('pageCartList');
+      const subtotalEl = document.getElementById('pageCartSubtotal');
+      const totalEl = document.getElementById('pageCartTotal');
+      const shippingNotice = document.getElementById('pageShippingNotice');
+
+      const cart = window.Vaunt.cart || [];
+      const subtotal = window.Vaunt.getCartSubtotal();
+
+      if (subtotalEl) subtotalEl.textContent = window.Vaunt.formatMoney(subtotal);
+      if (totalEl) totalEl.textContent = window.Vaunt.formatMoney(subtotal);
+
+      if (shippingNotice) {
+        shippingNotice.textContent = subtotal >= 10000 ? 'FREE' : 'LKR 850';
+      }
+
+      if (cart.length === 0) {
+        if (emptyBox) emptyBox.style.display = 'block';
+        if (listBox) listBox.style.display = 'none';
+      } else {
+        if (emptyBox) emptyBox.style.display = 'none';
+        if (listBox) {
+          listBox.style.display = 'flex';
+          listBox.innerHTML = cart.map((item, idx) => `
+            <div class="cart-item" style="padding: 16px 0;">
+              <div class="cart-item-image" style="width: 100px;">
+                <img src="${item.image}" alt="${item.title}" loading="lazy">
+              </div>
+              <div class="cart-item-info">
+                <div>
+                  <h4 class="cart-item-title" style="font-size: 16px;">${item.title}</h4>
+                  <div class="cart-item-variant">Size: <strong>${item.size}</strong> &bull; Color: <strong>${item.color}</strong></div>
+                  <div class="cart-item-price" style="font-size: 16px; margin-top: 4px;">${window.Vaunt.formatMoney(item.price)}</div>
+                </div>
+                <div class="cart-item-controls">
+                  <div class="quantity-control">
+                    <button type="button" class="qty-btn" onclick="Vaunt.updateQuantity(${idx}, -1); syncPageCart();">-</button>
+                    <input type="text" class="qty-input" value="${item.quantity}" readonly>
+                    <button type="button" class="qty-btn" onclick="Vaunt.updateQuantity(${idx}, 1); syncPageCart();">+</button>
+                  </div>
+                  <button type="button" class="cart-item-remove" onclick="Vaunt.removeFromCart(${idx}); syncPageCart();">Remove Item</button>
+                </div>
+              </div>
+            </div>
+          `).join('');
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(syncPageCart, 100);
+    });
+  </script>
+</body>
+</html>

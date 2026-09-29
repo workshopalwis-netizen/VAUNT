@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details — VAUNT ATELIER</title>
+  <meta name="description" content="Product detail page featuring precision tailoring, premium heavyweight textiles, and architectural silhouettes.">
+
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="assets/base.css">
+  <link rel="stylesheet" href="assets/theme.css">
+  <link rel="stylesheet" href="assets/sections.css">
+  <link rel="stylesheet" href="assets/components.css">
+
+  <style>
+    /* PDP Specific Styles */
+    .pdp-breadcrumbs {
+      padding: var(--spacing-md) 0;
+      font-size: var(--font-size-xs);
+      color: var(--color-foreground-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: var(--letter-spacing-wide);
+    }
+
+    .pdp-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--spacing-2xl);
+      margin-bottom: var(--spacing-4xl);
+    }
+
+    @media (min-width: 992px) {
+      .pdp-layout {
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: var(--spacing-3xl);
+      }
+    }
+
+    /* Left Gallery */
+    .pdp-gallery-wrap {
+      position: sticky;
+      top: calc(var(--header-height) + 20px);
+      display: flex;
+      flex-direction: column-reverse;
+      gap: var(--spacing-md);
+    }
+
+    @media (min-width: 768px) {
+      .pdp-gallery-wrap {
+        flex-direction: row;
+      }
+    }
+
+    .pdp-thumbnails {
+      display: flex;
+      gap: var(--spacing-xs);
+      overflow-x: auto;
+    }
+
+    @media (min-width: 768px) {
+      .pdp-thumbnails {
+        flex-direction: column;
+        width: 80px;
+        flex-shrink: 0;
+        overflow-y: auto;
+      }
+    }
+
+    .pdp-thumb-btn {
+      width: 64px;
+      height: 80px;
+      flex-shrink: 0;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xs);
+      overflow: hidden;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: all var(--transition-fast);
+      background-color: var(--color-surface);
+    }
+
+    .pdp-thumb-btn.is-active,
+    .pdp-thumb-btn:hover {
+      opacity: 1;
+      border-color: var(--color-primary);
+    }
+
+    .pdp-thumb-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .pdp-main-media {
+      flex: 1;
+      position: relative;
+      aspect-ratio: 3 / 4;
+      background-color: var(--color-surface);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+
+    .pdp-main-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.2s ease;
+    }
+
+    /* Right Info */
+    .pdp-info {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-lg);
+    }
+
+    .pdp-header-rating {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: var(--font-size-xs);
+      color: var(--color-foreground-muted);
+    }
+
+    .pdp-title {
+      font-family: var(--font-family-display);
+      font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+      font-weight: var(--font-weight-extrabold);
+      letter-spacing: var(--letter-spacing-tight);
+      text-transform: uppercase;
+      line-height: 1.15;
+    }
+
+    .pdp-pricing-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: var(--spacing-sm);
+    }
+
+    .pdp-price {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-extrabold);
+      color: var(--color-foreground);
+    }
+
+    .pdp-compare {
+      font-size: var(--font-size-base);
+      color: var(--color-foreground-muted);
+      text-decoration: line-through;
+    }
+
+    .pdp-discount-badge {
+      background-color: var(--color-sale);
+      color: var(--color-white);
+      padding: 3px 8px;
+      border-radius: var(--radius-xs);
+      font-size: 11px;
+      font-weight: var(--font-weight-bold);
+    }
+
+    .pdp-shipping-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: var(--font-size-xs);
+      color: var(--color-foreground-muted);
+      background-color: var(--color-surface);
+      padding: 8px 12px;
+      border-radius: var(--radius-xs);
+    }
+
+    .pdp-actions-row {
+      display: flex;
+      gap: var(--spacing-sm);
+    }
+
+    .pdp-qty-wrap {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xs);
+      overflow: hidden;
+      height: 52px;
+    }
+
+    .pdp-qty-btn {
+      width: 44px;
+      height: 100%;
+      background-color: var(--color-surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .pdp-qty-input {
+      width: 44px;
+      height: 100%;
+      border: none;
+      text-align: center;
+      font-weight: var(--font-weight-bold);
+      font-size: var(--font-size-sm);
+    }
+
+    .pdp-atc-btn {
+      flex: 1;
+      height: 52px;
+    }
+
+    .pdp-wish-btn {
+      width: 52px;
+      height: 52px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xs);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-foreground);
+      transition: all var(--transition-fast);
+    }
+
+    .pdp-wish-btn:hover {
+      border-color: var(--color-sale);
+      color: var(--color-sale);
+    }
+
+    .pdp-wish-btn.is-active {
+      color: var(--color-sale);
+      border-color: var(--color-sale);
+    }
+
+    .pdp-wish-btn.is-active svg {
+      fill: currentColor;
+    }
+
+    /* Sticky Mobile ATC Bar */
+    .pdp-sticky-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 99;
+      background-color: var(--color-white);
+      border-top: 1px solid var(--color-border);
+      padding: 12px var(--container-gutter);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing-md);
+      transform: translateY(100%);
+      transition: transform var(--transition-base);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .pdp-sticky-bar.is-visible {
+      transform: translateY(0);
+    }
+
+    .sticky-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sticky-bar-img {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-xs);
+      object-fit: cover;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Announcement Bar -->
+  <aside class="announcement-bar" role="region" aria-label="Store Announcement">
+    <div class="announcement-bar-content">
+      <span>FREE SHIPPING ON ORDERS OVER <strong>LKR 10,000</strong> &bull; WORLDWIDE EXPRESS DISPATCH</span>
+    </div>
+  </aside>
+
+  <!-- Sticky Header -->
+  <header class="site-header-wrapper">
+    <div class="container">
+      <div class="site-header">
+        <button type="button" class="action-btn mobile-menu-trigger" aria-label="Open menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+        <a href="index.html" class="site-logo">VAUNT<span class="accent-dot"></span></a>
+        <nav class="desktop-nav" aria-label="Primary Navigation">
+          <ul class="nav-list">
+            <li class="nav-item"><a href="collection.html?filter=new" class="nav-link">NEW ARRIVALS</a></li>
+            <li class="nav-item"><a href="collection.html?gender=men" class="nav-link">MEN</a></li>
+            <li class="nav-item"><a href="collection.html?gender=women" class="nav-link">WOMEN</a></li>
+            <li class="nav-item"><a href="collection.html" class="nav-link">COLLECTIONS</a></li>
+            <li class="nav-item"><a href="collection.html?filter=bestsellers" class="nav-link">BEST SELLERS</a></li>
+            <li class="nav-item"><a href="collection.html?filter=sale" class="nav-link is-sale">SALE</a></li>
+          </ul>
+        </nav>
+        <div class="header-actions">
+          <button type="button" class="action-btn search-trigger" aria-label="Search">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          </button>
+          <a href="#" class="action-btn cart-drawer-trigger" aria-label="Shopping Cart">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+            <span class="action-badge cart-badge is-empty">0</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="MainContent" role="main" class="container">
+    
+    <!-- Breadcrumbs -->
+    <nav class="pdp-breadcrumbs" aria-label="Breadcrumb">
+      <a href="index.html">Home</a>
+      <span>/</span>
+      <a href="collection.html">Collection</a>
+      <span>/</span>
+      <span id="breadcrumbProductTitle" style="color: var(--color-foreground);">Product</span>
+    </nav>
+
+    <!-- Main PDP 2-Column Section -->
+    <section class="pdp-layout">
+      
+      <!-- Gallery Column -->
+      <div class="pdp-gallery-wrap">
+        <div class="pdp-thumbnails" id="pdpThumbnails"></div>
+        <div class="pdp-main-media">
+          <img src="" alt="" id="pdpMainImage">
+        </div>
+      </div>
+
+      <!-- Information Column -->
+      <div class="pdp-info">
+        
+        <div class="pdp-header-rating">
+          <span class="rating-stars">★★★★★</span>
+          <span id="pdpReviewCount">(0 reviews)</span>
+        </div>
+
+        <h1 class="pdp-title" id="pdpTitle">Loading Piece...</h1>
+
+        <div class="pdp-pricing-wrap">
+          <span class="pdp-price" id="pdpPrice">LKR 0</span>
+          <span class="pdp-compare" id="pdpComparePrice" style="display: none;">LKR 0</span>
+          <span class="pdp-discount-badge" id="pdpDiscountBadge" style="display: none;">SAVE 20%</span>
+        </div>
+
+        <div class="pdp-shipping-badge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+          <span>Free express delivery on orders over LKR 10,000</span>
+        </div>
+
+        <!-- Color Swatches -->
+        <div class="variant-option-group">
+          <div class="variant-label">
+            <span>COLOR: <strong id="pdpSelectedColorText">Noir</strong></span>
+          </div>
+          <div class="color-swatches" id="pdpColorSwatches"></div>
+        </div>
+
+        <!-- Size Options -->
+        <div class="variant-option-group">
+          <div class="variant-label">
+            <span>SELECT SIZE</span>
+            <button type="button" onclick="Vaunt.openSizeGuide()" style="text-decoration: underline; font-size: 11px; text-transform: uppercase;">Size Guide</button>
+          </div>
+          <div class="size-options" id="pdpSizeOptions"></div>
+        </div>
+
+        <!-- Actions Row: Quantity + ATC + Wishlist -->
+        <div class="pdp-actions-row">
+          <div class="pdp-qty-wrap">
+            <button type="button" class="pdp-qty-btn" onclick="ProductApp.updateQty(-1)">-</button>
+            <input type="text" class="pdp-qty-input" id="pdpQtyInput" value="1" readonly>
+            <button type="button" class="pdp-qty-btn" onclick="ProductApp.updateQty(1)">+</button>
+          </div>
+          <button type="button" class="btn btn-primary pdp-atc-btn" id="pdpAddToCartBtn">
+            ADD TO CART
+          </button>
+          <button type="button" class="pdp-wish-btn" id="pdpWishlistBtn" aria-label="Add to wishlist">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+          </button>
+        </div>
+
+        <!-- Buy It Now Button -->
+        <button type="button" class="btn btn-secondary btn-block btn-lg" id="pdpBuyNowBtn">
+          BUY IT NOW
+        </button>
+
+        <!-- Accordions: Description, Specs, Shipping, Returns -->
+        <div class="accordion-group">
+          
+          <div class="accordion-item is-open">
+            <button type="button" class="accordion-trigger">
+              <span>DESCRIPTION</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="accordion-icon"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="accordion-content">
+              <p id="pdpDescription">Loading description...</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button type="button" class="accordion-trigger">
+              <span>FABRIC & TECHNICAL SPECIFICATIONS</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="accordion-icon"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="accordion-content">
+              <ul id="pdpDetailsList" style="list-style: disc; padding-left: 20px; display: flex; flex-direction: column; gap: 6px;"></ul>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button type="button" class="accordion-trigger">
+              <span>SHIPPING & DELIVERY</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="accordion-icon"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="accordion-content">
+              <p>All domestic orders above <strong>LKR 10,000</strong> receive complimentary express door-to-door courier dispatch. Standard delivery timeline within Colombo: 1-2 business days; outstation: 2-3 business days.</p>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button type="button" class="accordion-trigger">
+              <span>RETURNS & EXCHANGES</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="accordion-icon"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="accordion-content">
+              <p>We honor a seamless 14-day exchange or store credit return policy for all unworn garments with original security tags affixed. Free size exchanges offered across Sri Lanka.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- Recommended Products: YOU MAY ALSO LIKE -->
+    <section class="section-spacing">
+      <div class="section-header text-center">
+        <span class="section-eyebrow">COMPLETE THE LOOK</span>
+        <h2 class="section-title">YOU MAY ALSO LIKE</h2>
+      </div>
+      <div class="product-grid cols-4" id="recommendedProductGrid"></div>
+    </section>
+
+  </main>
+
+  <!-- Sticky Mobile Add to Cart Bar -->
+  <div class="pdp-sticky-bar" id="pdpStickyBar">
+    <div class="sticky-bar-left">
+      <img src="" alt="" class="sticky-bar-img" id="stickyBarImg">
+      <div>
+        <h4 id="stickyBarTitle" style="font-size: 13px; font-weight: 700;">Product Title</h4>
+        <span id="stickyBarPrice" style="font-size: 13px; color: var(--color-foreground-muted);">LKR 0</span>
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary btn-sm" id="stickyBarAddToCartBtn">
+      ADD TO CART
+    </button>
+  </div>
+
+  <!-- Shared Modals and Drawers -->
+  <div class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-label="Shopping Cart">
+    <div class="cart-backdrop"></div>
+    <div class="cart-panel">
+      <div class="cart-header">
+        <h3 class="cart-title">YOUR CART</h3>
+        <button type="button" class="cart-close-btn" aria-label="Close cart">✕</button>
+      </div>
+      <div class="shipping-progress-container">
+        <div class="shipping-progress-text"><span>You are <strong>LKR 10,000</strong> away from <strong>FREE SHIPPING</strong></span></div>
+        <div class="shipping-progress-bar"><div class="shipping-progress-fill"></div></div>
+      </div>
+      <div class="cart-body">
+        <div class="cart-empty"><h4 class="cart-empty-title">YOUR CART IS EMPTY</h4></div>
+        <div class="cart-items-list" style="display: none;"></div>
+      </div>
+      <div class="cart-footer">
+        <div class="cart-subtotal-row"><span>SUBTOTAL</span><span class="cart-subtotal-amount">LKR 0</span></div>
+        <button type="button" class="btn btn-primary btn-block cart-checkout-btn" onclick="Vaunt.showToast('Redirecting to checkout...')">CHECKOUT</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="sizeGuideModal" role="dialog" aria-modal="true" aria-label="Size Guide">
+    <div class="modal-backdrop" onclick="Vaunt.closeSizeGuide()"></div>
+    <div class="modal-dialog" style="max-width: 680px; padding: 32px;">
+      <button type="button" class="modal-close-btn" onclick="Vaunt.closeSizeGuide()">✕</button>
+      <h3 style="font-family: var(--font-family-display); font-size: 1.5rem; text-transform: uppercase; margin-bottom: 8px;">SIZE GUIDE</h3>
+      <p style="font-size: 13px; color: var(--color-foreground-muted); margin-bottom: 20px;">Measurements shown in centimeters (cm).</p>
+      <table style="width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; margin-bottom: 24px;">
+        <thead>
+          <tr style="border-bottom: 2px solid var(--color-primary); font-weight: 700;">
+            <th style="padding: 10px 8px;">SIZE</th><th>CHEST</th><th>WAIST</th><th>SHOULDER</th><th>LENGTH</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 10px 8px; font-weight: 600;">S</td><td>93-97</td><td>77-81</td><td>46</td><td>70</td></tr>
+          <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 10px 8px; font-weight: 600;">M</td><td>98-103</td><td>82-87</td><td>48</td><td>72</td></tr>
+          <tr style="border-bottom: 1px solid var(--color-border);"><td style="padding: 10px 8px; font-weight: 600;">L</td><td>104-109</td><td>88-93</td><td>50</td><td>74</td></tr>
+          <tr><td style="padding: 10px 8px; font-weight: 600;">XL</td><td>110-116</td><td>94-100</td><td>52</td><td>76</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <div class="footer-bottom-inner">
+          <p>&copy; 2026 VAUNT ATELIER. ALL RIGHTS RESERVED.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/catalog-data.js"></script>
+  <script src="assets/theme.js"></script>
+  <script src="assets/product.js"></script>
+</body>
+</html>

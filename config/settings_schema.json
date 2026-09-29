@@ -1,0 +1,106 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "VAUNT ATELIER",
+    "theme_version": "1.0.0",
+    "theme_author": "VAUNT DESIGN LAB",
+    "theme_documentation_url": "https://github.com/vaunt-atelier/shopify-theme",
+    "theme_support_url": "https://vauntatelier.com/support"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary Neutral / Obsidian",
+        "default": "#0D0D0D"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Primary Accent Color",
+        "default": "#C5A880",
+        "info": "Used for highlights, focus rings, and special badge accents."
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Store Background",
+        "default": "#FAFAFA"
+      },
+      {
+        "type": "color",
+        "id": "color_surface",
+        "label": "Surface / Cards",
+        "default": "#F4F4F2"
+      },
+      {
+        "type": "color",
+        "id": "color_sale",
+        "label": "Sale / Discount Color",
+        "default": "#D9383A"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "font_picker",
+        "id": "font_heading",
+        "label": "Heading Font",
+        "default": "sans-serif"
+      },
+      {
+        "type": "font_picker",
+        "id": "font_body",
+        "label": "Body Font",
+        "default": "sans-serif"
+      }
+    ]
+  },
+  {
+    "name": "Free Shipping Bar",
+    "settings": [
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Free Shipping Threshold (Amount)",
+        "default": 10000,
+        "info": "Cart value required for complimentary shipping."
+      },
+      {
+        "type": "text",
+        "id": "free_shipping_message",
+        "label": "Default Announcement Message",
+        "default": "FREE SHIPPING ON ORDERS OVER LKR 10,000"
+      }
+    ]
+  },
+  {
+    "name": "Social Media",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook URL"
+      },
+      {
+        "type": "text",
+        "id": "social_tiktok_link",
+        "label": "TikTok URL"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "YouTube URL"
+      }
+    ]
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "current": {
+    "color_primary": "#0D0D0D",
+    "color_accent": "#C5A880",
+    "color_background": "#FAFAFA",
+    "color_surface": "#F4F4F2",
+    "color_sale": "#D9383A",
+    "free_shipping_threshold": 10000,
+    "free_shipping_message": "FREE SHIPPING ON ORDERS OVER LKR 10,000",
+    "social_instagram_link": "https://instagram.com",
+    "social_facebook_link": "https://facebook.com",
+    "social_tiktok_link": "https://tiktok.com",
+    "social_youtube_link": "https://youtube.com"
+  }
+}

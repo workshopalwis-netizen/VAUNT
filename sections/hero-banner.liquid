@@ -1,0 +1,132 @@
+<section class="hero-section" aria-label="{{ section.settings.heading | default: 'Featured Season' }}">
+  <div class="hero-media-wrapper">
+    {%- if section.settings.video_url != blank -%}
+      <video class="hero-video" autoplay loop muted playsinline poster="{{ section.settings.image | image_url: width: 2000 }}">
+        <source src="{{ section.settings.video_url }}" type="video/mp4">
+      </video>
+    {%- elsif section.settings.image != blank -%}
+      <img 
+        src="{{ section.settings.image | image_url: width: 2000 }}" 
+        alt="{{ section.settings.heading | escape }}" 
+        class="hero-image"
+        loading="eager"
+      >
+    {%- else -%}
+      <img 
+        src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=2000&q=85" 
+        alt="VAUNT Campaign" 
+        class="hero-image"
+        loading="eager"
+      >
+    {%- endif -%}
+  </div>
+
+  <div class="hero-overlay" style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
+
+  <div class="container hero-content" style="text-align: {{ section.settings.text_alignment }};">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="hero-eyebrow">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <h1 class="hero-title">{{ section.settings.heading }}</h1>
+    {%- endif -%}
+
+    {%- if section.settings.description != blank -%}
+      <p class="hero-description">{{ section.settings.description }}</p>
+    {%- endif -%}
+
+    <div class="hero-cta-group" style="justify-content: {% if section.settings.text_alignment == 'left' %}flex-start{% elsif section.settings.text_alignment == 'right' %}flex-end{% else %}center{% endif %};">
+      {%- if section.settings.button_label_1 != blank -%}
+        <a href="{{ section.settings.button_link_1 }}" class="btn btn-primary btn-lg">{{ section.settings.button_label_1 }}</a>
+      {%- endif -%}
+      {%- if section.settings.button_label_2 != blank -%}
+        <a href="{{ section.settings.button_link_2 }}" class="btn btn-outline btn-lg">{{ section.settings.button_label_2 }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Desktop Hero Image"
+    },
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "Background Video Direct MP4 URL",
+      "info": "Optional direct MP4 video link. Overrides image if present."
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Dark Overlay Opacity (%)",
+      "min": 0,
+      "max": 90,
+      "default": 45,
+      "step": 5
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Badge",
+      "default": "NEW SEASON / 2026"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main Heading",
+      "default": "DEFINE YOUR STYLE"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Subheading / Description",
+      "default": "Modern essentials designed for everyday confidence."
+    },
+    {
+      "type": "text",
+      "id": "button_label_1",
+      "label": "Primary Button Text",
+      "default": "SHOP MEN"
+    },
+    {
+      "type": "url",
+      "id": "button_link_1",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "label": "Secondary Button Text",
+      "default": "SHOP WOMEN"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Secondary Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner"
+    }
+  ]
+}
+{% endschema %}

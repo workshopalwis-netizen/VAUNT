@@ -1,0 +1,56 @@
+<section class="feature-fullwidth" aria-label="{{ section.settings.heading }}">
+  {%- if section.settings.image != blank -%}
+    <img src="{{ section.settings.image | image_url: width: 2000 }}" alt="{{ section.settings.heading | escape }}" class="feature-fullwidth-media" loading="lazy">
+  {%- else -%}
+    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=2000&q=80" alt="Collection Feature" class="feature-fullwidth-media" loading="lazy">
+  {%- endif -%}
+  <div class="feature-fullwidth-overlay"></div>
+  <div class="feature-fullwidth-content">
+    <h2 class="feature-fullwidth-title">{{ section.settings.heading }}</h2>
+    <p class="feature-fullwidth-desc">{{ section.settings.description }}</p>
+    {%- if section.settings.button_label != blank -%}
+      <a href="{{ section.settings.button_link }}" class="btn btn-outline btn-lg">{{ section.settings.button_label }}</a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection Feature",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "BUILT FOR YOUR EVERYDAY"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description",
+      "default": "Designed to move with you."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "DISCOVER THE COLLECTION"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Feature"
+    }
+  ]
+}
+{% endschema %}

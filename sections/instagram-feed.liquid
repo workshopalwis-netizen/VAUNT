@@ -1,0 +1,85 @@
+<section class="section-spacing container" aria-label="Social Lookbook">
+  <div class="section-header text-center">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="section-eyebrow">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+    <h2 class="section-title">{{ section.settings.heading }}</h2>
+    {%- if section.settings.subheading != blank -%}
+      <p class="section-subtitle">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+  </div>
+
+  <div class="instagram-grid">
+    {%- for block in section.blocks -%}
+      <a href="{{ block.settings.link | default: 'https://instagram.com' }}" target="_blank" rel="noopener" class="instagram-tile" {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+          <img src="{{ block.settings.image | image_url: width: 600 }}" alt="Social Look" loading="lazy">
+        {%- else -%}
+          <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=600&q=80" alt="Social Look" loading="lazy">
+        {%- endif -%}
+        <div class="instagram-overlay">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+        </div>
+      </a>
+    {%- else -%}
+      <!-- Default 6 Tiles -->
+      {%- for i in (1..6) -%}
+        <a href="https://instagram.com" target="_blank" rel="noopener" class="instagram-tile">
+          <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=600&q=80" alt="Social Look {{ i }}" loading="lazy">
+          <div class="instagram-overlay">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </div>
+        </a>
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Instagram Feed",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Account Handle",
+      "default": "@VAUNTATELIER"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FOLLOW OUR STYLE"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Tag #VAUNTATELIER to be featured in our global editorial stream."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Social Tile",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Post URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Instagram Feed"
+    }
+  ]
+}
+{% endschema %}

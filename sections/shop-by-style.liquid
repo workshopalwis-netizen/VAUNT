@@ -1,0 +1,124 @@
+<section class="section-spacing container" aria-label="Shop by Style">
+  <div class="section-header">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="section-eyebrow">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+    <h2 class="section-title">{{ section.settings.heading }}</h2>
+  </div>
+
+  <div class="style-grid">
+    {%- for block in section.blocks -%}
+      <a href="{{ block.settings.link }}" class="style-card" {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+          <img src="{{ block.settings.image | image_url: width: 600 }}" alt="{{ block.settings.title | escape }}" loading="lazy">
+        {%- else -%}
+          <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=600&q=80" alt="{{ block.settings.title | escape }}" loading="lazy">
+        {%- endif -%}
+        <div class="style-card-overlay"></div>
+        <div class="style-card-content">
+          <h3 class="style-card-title">{{ block.settings.title }}</h3>
+          {%- if block.settings.count != blank -%}
+            <span class="style-card-count">{{ block.settings.count }}</span>
+          {%- endif -%}
+        </div>
+      </a>
+    {%- else -%}
+      <!-- Default 5 Style Cards -->
+      <a href="/collections/all?style=streetwear" class="style-card">
+        <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=600&q=80" alt="Streetwear" loading="lazy">
+        <div class="style-card-overlay"></div>
+        <div class="style-card-content">
+          <h3 class="style-card-title">STREETWEAR</h3>
+          <span class="style-card-count">14 Pieces</span>
+        </div>
+      </a>
+      <a href="/collections/all?style=casual" class="style-card">
+        <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?auto=format&fit=crop&w=600&q=80" alt="Casual" loading="lazy">
+        <div class="style-card-overlay"></div>
+        <div class="style-card-content">
+          <h3 class="style-card-title">CASUAL</h3>
+          <span class="style-card-count">18 Pieces</span>
+        </div>
+      </a>
+      <a href="/collections/all?style=active" class="style-card">
+        <img src="https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=600&q=80" alt="Active" loading="lazy">
+        <div class="style-card-overlay"></div>
+        <div class="style-card-content">
+          <h3 class="style-card-title">ACTIVE</h3>
+          <span class="style-card-count">12 Pieces</span>
+        </div>
+      </a>
+      <a href="/collections/all?style=premium" class="style-card">
+        <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?auto=format&fit=crop&w=600&q=80" alt="Premium" loading="lazy">
+        <div class="style-card-overlay"></div>
+        <div class="style-card-content">
+          <h3 class="style-card-title">PREMIUM</h3>
+          <span class="style-card-count">10 Pieces</span>
+        </div>
+      </a>
+      <a href="/collections/all?style=essentials" class="style-card">
+        <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80" alt="Essentials" loading="lazy">
+        <div class="style-card-overlay"></div>
+        <div class="style-card-content">
+          <h3 class="style-card-title">ESSENTIALS</h3>
+          <span class="style-card-count">24 Pieces</span>
+        </div>
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop by Style",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "CURATED AESTHETICS"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "SHOP BY STYLE"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "style_item",
+      "name": "Style Category",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Style Title",
+          "default": "STREETWEAR"
+        },
+        {
+          "type": "text",
+          "id": "count",
+          "label": "Item Count Subtitle",
+          "default": "12 Products"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop by Style"
+    }
+  ]
+}
+{% endschema %}

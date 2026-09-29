@@ -1,0 +1,56 @@
+[
+  {
+    "id": "new-arrivals",
+    "handle": "new-arrivals",
+    "title": "New Arrivals",
+    "subtitle": "Fresh pieces. New energy.",
+    "description": "Discover the latest drop from VAUNT ATELIER. Precision cuts, technical textiles, and modern minimalist silhouettes engineered for the new season.",
+    "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1600&q=80",
+    "item_count": 12
+  },
+  {
+    "id": "men",
+    "handle": "men",
+    "title": "Men's Collection",
+    "subtitle": "Precision tailoring and tactical utility.",
+    "description": "Heavyweight organic cottons, tailored outerwear, and modern architectural pants designed for enduring daily wear.",
+    "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1600&q=80",
+    "item_count": 8
+  },
+  {
+    "id": "women",
+    "handle": "women",
+    "title": "Women's Collection",
+    "subtitle": "Sculpted contours and fluid forms.",
+    "description": "Elevated wardrobe foundations blending body-contouring knitwear, razor-sharp blazers, and luxury wide-leg silhouettes.",
+    "image": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1600&q=80",
+    "item_count": 5
+  },
+  {
+    "id": "essentials",
+    "handle": "essentials",
+    "title": "The Essential Collection",
+    "subtitle": "Timeless pieces designed to become part of your everyday wardrobe.",
+    "description": "Uncompromising quality across everyday staples. Heavyweight tees, luxury hoodies, and year-round layers.",
+    "image": "https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=1600&q=80",
+    "item_count": 6
+  },
+  {
+    "id": "streetwear",
+    "handle": "streetwear",
+    "title": "Streetwear & Technical",
+    "subtitle": "Utility meets architectural street culture.",
+    "description": "Cargo trousers, tactical overshirts, and oversized drops crafted for metropolitan landscapes.",
+    "image": "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=1600&q=80",
+    "item_count": 7
+  },
+  {
+    "id": "best-sellers",
+    "handle": "best-sellers",
+    "title": "Best Sellers",
+    "subtitle": "Our most coveted silhouettes.",
+    "description": "The definitive icons that defined our season. Backed by thousands of customer reviews.",
+    "image": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80",
+    "item_count": 6
+  }
+]

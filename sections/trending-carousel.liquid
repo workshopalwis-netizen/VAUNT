@@ -1,0 +1,73 @@
+<section class="section-spacing container" aria-label="Trending Discovery">
+  <div class="section-header flex justify-between items-center">
+    <div>
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="section-eyebrow">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      <h2 class="section-title">{{ section.settings.heading }}</h2>
+    </div>
+    {%- if section.settings.button_label != blank -%}
+      <a href="{{ section.settings.button_link }}" class="btn btn-secondary btn-sm">{{ section.settings.button_label }} &rarr;</a>
+    {%- endif -%}
+  </div>
+
+  <div class="product-horizontal-scroll">
+    {%- assign collection = collections[section.settings.collection] -%}
+    {%- for product in collection.products limit: 6 -%}
+      {% render 'product-card', product: product, show_trending: true %}
+    {%- else -%}
+      {%- for i in (1..4) -%}
+        <div class="product-card">
+          <div class="product-card-media" style="background-color: var(--color-surface); display:flex; align-items:center; justify-content:center;">
+            <span>Trending {{ i }}</span>
+          </div>
+          <div class="product-card-content">
+            <h4 class="product-card-title">Trending Piece {{ i }}</h4>
+            <div class="product-card-pricing"><span class="product-price">LKR 11,900</span></div>
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trending Carousel",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "REAL-TIME DEMAND"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "TRENDING NOW"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Link Text",
+      "default": "View All"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Link URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trending Carousel"
+    }
+  ]
+}
+{% endschema %}

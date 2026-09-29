@@ -1,0 +1,115 @@
+{
+  "name": "Home page",
+  "sections": {
+    "hero_banner": {
+      "type": "hero-banner",
+      "settings": {
+        "eyebrow": "NEW SEASON / 2026",
+        "heading": "DEFINE YOUR STYLE",
+        "description": "Modern essentials designed for everyday confidence.",
+        "button_label_1": "SHOP MEN",
+        "button_link_1": "/collections/men",
+        "button_label_2": "SHOP WOMEN",
+        "button_link_2": "/collections/women",
+        "overlay_opacity": 45
+      }
+    },
+    "new_arrivals": {
+      "type": "new-arrivals",
+      "settings": {
+        "eyebrow": "THE LATEST DROP",
+        "heading": "NEW ARRIVALS",
+        "subheading": "Fresh pieces. New energy.",
+        "collection": "all",
+        "products_to_show": 8
+      }
+    },
+    "category_cards": {
+      "type": "category-cards",
+      "settings": {
+        "eyebrow": "DISCOVER ARCHIVES",
+        "heading": "SHOP BY CATEGORY"
+      }
+    },
+    "featured_editorial": {
+      "type": "featured-editorial",
+      "settings": {
+        "eyebrow": "TIMELESS FOUNDATIONS",
+        "heading": "THE ESSENTIAL COLLECTION",
+        "description": "Timeless pieces designed to become part of your everyday wardrobe.",
+        "button_label": "EXPLORE COLLECTION",
+        "button_link": "/collections/all"
+      }
+    },
+    "best_sellers": {
+      "type": "best-sellers",
+      "settings": {
+        "eyebrow": "COMMUNITY FAVORITES",
+        "heading": "BEST SELLERS",
+        "subheading": "Our most coveted cuts, engineered for repeatable perfection."
+      }
+    },
+    "promo_banner": {
+      "type": "promo-banner",
+      "settings": {
+        "eyebrow": "MID-SEASON PRIVILEGE",
+        "heading": "UP TO 40% OFF",
+        "subheading": "SELECTED STYLES",
+        "button_label": "SHOP SALE",
+        "button_link": "/collections/all"
+      }
+    },
+    "shop_by_style": {
+      "type": "shop-by-style",
+      "settings": {
+        "eyebrow": "CURATED AESTHETICS",
+        "heading": "SHOP BY STYLE"
+      }
+    },
+    "trending_carousel": {
+      "type": "trending-carousel",
+      "settings": {
+        "eyebrow": "REAL-TIME DEMAND",
+        "heading": "TRENDING NOW"
+      }
+    },
+    "collection_feature": {
+      "type": "collection-feature",
+      "settings": {
+        "heading": "BUILT FOR YOUR EVERYDAY",
+        "description": "Designed to move with you.",
+        "button_label": "DISCOVER THE COLLECTION",
+        "button_link": "/collections/all"
+      }
+    },
+    "instagram_feed": {
+      "type": "instagram-feed",
+      "settings": {
+        "eyebrow": "@VAUNTATELIER",
+        "heading": "FOLLOW OUR STYLE",
+        "subheading": "Tag #VAUNTATELIER to be featured in our global editorial stream."
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "JOIN THE COMMUNITY",
+        "heading": "EXCLUSIVE ACCESS & DROPS",
+        "subheading": "Be the first to discover new collections, exclusive drops and special offers."
+      }
+    }
+  },
+  "order": [
+    "hero_banner",
+    "new_arrivals",
+    "category_cards",
+    "featured_editorial",
+    "best_sellers",
+    "promo_banner",
+    "shop_by_style",
+    "trending_carousel",
+    "collection_feature",
+    "instagram_feed",
+    "newsletter"
+  ]
+}

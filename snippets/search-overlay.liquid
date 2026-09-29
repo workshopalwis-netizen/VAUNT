@@ -1,0 +1,34 @@
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search Store">
+  <div class="search-header">
+    <span class="site-logo">{{ shop.name | default: 'VAUNT' }}<span class="accent-dot"></span></span>
+    <button type="button" class="action-btn search-close-btn" aria-label="Close search">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+
+  <div class="search-body">
+    <div class="search-input-wrap">
+      <input type="text" class="search-input" id="mainSearchInput" placeholder="What are you looking for?" autocomplete="off">
+      <button type="button" class="search-clear-btn" aria-label="Clear query">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="search-tags">
+      <span class="search-tag-label">POPULAR:</span>
+      <button type="button" class="search-tag" data-tag="Hoodie">Heavyweight Hoodie</button>
+      <button type="button" class="search-tag" data-tag="Cargo">Tactical Cargo</button>
+      <button type="button" class="search-tag" data-tag="Blazer">Wool Blazer</button>
+      <button type="button" class="search-tag" data-tag="Supima">Supima Tee</button>
+      <button type="button" class="search-tag" data-tag="Linen">Linen Overshirt</button>
+    </div>
+
+    <div class="search-results-grid" id="searchResultsGrid"></div>
+  </div>
+</div>

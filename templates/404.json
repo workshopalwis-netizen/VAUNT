@@ -1,0 +1,20 @@
+{
+  "name": "404 Not Found",
+  "sections": {
+    "main_404": {
+      "type": "hero-banner",
+      "settings": {
+        "eyebrow": "ERROR 404",
+        "heading": "PAGE NOT FOUND",
+        "description": "The piece or archive you are looking for has been moved or retired.",
+        "button_label_1": "RETURN HOME",
+        "button_link_1": "/",
+        "button_label_2": "EXPLORE COLLECTION",
+        "button_link_2": "/collections/all"
+      }
+    }
+  },
+  "order": [
+    "main_404"
+  ]
+}

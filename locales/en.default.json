@@ -1,0 +1,45 @@
+{
+  "general": {
+    "search": "Search",
+    "cart": "Cart",
+    "wishlist": "Wishlist",
+    "close": "Close",
+    "view_all": "View All",
+    "free_shipping": "Free Shipping",
+    "loading": "Loading..."
+  },
+  "sections": {
+    "header": {
+      "announcement": "Free shipping on orders over LKR 10,000",
+      "account": "Account",
+      "menu": "Menu"
+    },
+    "hero": {
+      "eyebrow": "NEW SEASON / 2026",
+      "title": "DEFINE YOUR STYLE",
+      "description": "Modern essentials designed for everyday confidence.",
+      "shop_men": "SHOP MEN",
+      "shop_women": "SHOP WOMEN"
+    },
+    "cart": {
+      "title": "YOUR CART",
+      "empty": "YOUR CART IS EMPTY",
+      "subtotal": "Subtotal",
+      "checkout": "CHECKOUT",
+      "continue_shopping": "Continue Shopping",
+      "shipping_threshold_text": "You are LKR {{ amount }} away from FREE SHIPPING"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "ADD TO CART",
+      "buy_now": "BUY IT NOW",
+      "sold_out": "SOLD OUT",
+      "sale": "SALE",
+      "new": "NEW",
+      "trending": "TRENDING",
+      "size_guide": "Size Guide",
+      "reviews": "reviews"
+    }
+  }
+}

@@ -1,0 +1,70 @@
+<section class="editorial-section" aria-label="{{ section.settings.heading }}">
+  <div class="container">
+    <div class="editorial-grid">
+      <div class="editorial-image-wrap">
+        {%- if section.settings.image != blank -%}
+          <img src="{{ section.settings.image | image_url: width: 1200 }}" alt="{{ section.settings.heading | escape }}" loading="lazy">
+        {%- else -%}
+          <img src="https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=1200&q=80" alt="Editorial Fashion" loading="lazy">
+        {%- endif -%}
+      </div>
+      <div class="editorial-content">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="editorial-eyebrow">{{ section.settings.eyebrow }}</span>
+        {%- endif -%}
+        <h2 class="editorial-title">{{ section.settings.heading }}</h2>
+        <p class="editorial-desc">{{ section.settings.description }}</p>
+        {%- if section.settings.button_label != blank -%}
+          <a href="{{ section.settings.button_link }}" class="btn btn-primary btn-lg">{{ section.settings.button_label }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured Editorial",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Editorial Lifestyle Image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "TIMELESS FOUNDATIONS"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "THE ESSENTIAL COLLECTION"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Timeless pieces designed to become part of your everyday wardrobe. Built from custom 480 GSM organic cotton french terry and long-staple Egyptian Supima cottons that soften with each wash while holding their structured drape."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "EXPLORE COLLECTION"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Editorial"
+    }
+  ]
+}
+{% endschema %}

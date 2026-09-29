@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collection — VAUNT ATELIER</title>
+  <meta name="description" content="Explore our seasonal collection of architectural silhouettes, luxury heavyweight essentials, and contemporary tailoring.">
+
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="assets/base.css">
+  <link rel="stylesheet" href="assets/theme.css">
+  <link rel="stylesheet" href="assets/sections.css">
+  <link rel="stylesheet" href="assets/components.css">
+
+  <style>
+    /* Collection Specific Layout Styles */
+    .collection-hero {
+      position: relative;
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      padding: clamp(48px, 6vw, 80px) 0;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .collection-hero-bg {
+      position: absolute;
+      inset: 0;
+      opacity: 0.35;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+
+    .collection-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 var(--container-gutter);
+    }
+
+    .collection-hero-title {
+      font-family: var(--font-family-display);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: var(--font-weight-extrabold);
+      text-transform: uppercase;
+      letter-spacing: var(--letter-spacing-tight);
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .collection-hero-desc {
+      font-size: var(--font-size-base);
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 1.6;
+    }
+
+    /* Collection Toolbar */
+    .collection-toolbar {
+      padding: var(--spacing-md) 0;
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: var(--spacing-xl);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--spacing-md);
+    }
+
+    .toolbar-left, .toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-md);
+    }
+
+    .filter-count {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: var(--letter-spacing-wider);
+      text-transform: uppercase;
+      color: var(--color-foreground-muted);
+    }
+
+    .sort-select-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      text-transform: uppercase;
+      letter-spacing: var(--letter-spacing-wider);
+    }
+
+    .sort-select {
+      border: 1px solid var(--color-border);
+      background-color: var(--color-white);
+      padding: 8px 14px;
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-semibold);
+      border-radius: var(--radius-xs);
+      cursor: pointer;
+    }
+
+    /* Layout Grid: Sidebar + Product Grid */
+    .collection-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--spacing-2xl);
+    }
+
+    @media (min-width: 1024px) {
+      .collection-layout {
+        grid-template-columns: 260px 1fr;
+      }
+    }
+
+    /* Sidebar Filters */
+    .collection-sidebar {
+      display: none;
+      flex-direction: column;
+      gap: var(--spacing-xl);
+    }
+
+    @media (min-width: 1024px) {
+      .collection-sidebar {
+        display: flex;
+      }
+    }
+
+    /* Mobile Sidebar Drawer Mode */
+    .collection-sidebar.is-mobile-open {
+      display: flex;
+      position: fixed;
+      inset: 0;
+      z-index: 1200;
+      background-color: var(--color-white);
+      padding: var(--spacing-xl);
+      overflow-y: auto;
+    }
+
+    .close-sidebar-btn {
+      display: none;
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      padding: 8px;
+    }
+
+    .collection-sidebar.is-mobile-open .close-sidebar-btn {
+      display: block;
+    }
+
+    .filter-group-title {
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: var(--letter-spacing-widest);
+      text-transform: uppercase;
+      margin-bottom: var(--spacing-sm);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .filter-select {
+      width: 100%;
+      border: 1px solid var(--color-border);
+      padding: 10px 12px;
+      font-size: var(--font-size-xs);
+      border-radius: var(--radius-xs);
+      background-color: var(--color-white);
+    }
+
+    .filter-gender-tabs {
+      display: flex;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xs);
+      overflow: hidden;
+    }
+
+    .filter-gender-btn {
+      flex: 1;
+      padding: 8px 10px;
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      letter-spacing: var(--letter-spacing-wider);
+      text-transform: uppercase;
+      text-align: center;
+      background-color: var(--color-surface);
+      border: none;
+      transition: all var(--transition-fast);
+    }
+
+    .filter-gender-btn.is-active {
+      background-color: var(--color-primary);
+      color: var(--color-white);
+    }
+
+    .filter-size-grid {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .filter-size-btn {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--color-border);
+      background-color: var(--color-white);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      border-radius: var(--radius-xs);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .filter-size-btn.is-active {
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      border-color: var(--color-primary);
+    }
+
+    .filter-range {
+      width: 100%;
+      accent-color: var(--color-primary);
+    }
+
+    .filter-checkbox-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: var(--font-size-sm);
+      cursor: pointer;
+    }
+
+    .filter-checkbox-wrap input {
+      accent-color: var(--color-primary);
+      width: 16px;
+      height: 16px;
+    }
+
+    .mobile-filter-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xs);
+      font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-bold);
+      text-transform: uppercase;
+      letter-spacing: var(--letter-spacing-wider);
+    }
+
+    @media (min-width: 1024px) {
+      .mobile-filter-trigger {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       ANNOUNCEMENT BAR
+       ======================================================================== -->
+  <aside class="announcement-bar" role="region" aria-label="Store Announcement">
+    <div class="announcement-bar-content">
+      <span>FREE SHIPPING ON ORDERS OVER <strong>LKR 10,000</strong> &bull; WORLDWIDE EXPRESS DISPATCH</span>
+    </div>
+    <button type="button" class="announcement-bar-close" aria-label="Dismiss announcement">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </aside>
+
+  <!-- ========================================================================
+       STICKY HEADER WITH MEGA MENUS
+       ======================================================================== -->
+  <header class="site-header-wrapper">
+    <div class="container">
+      <div class="site-header">
+        
+        <button type="button" class="action-btn mobile-menu-trigger" aria-label="Open navigation menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
+        <a href="index.html" class="site-logo">
+          VAUNT<span class="accent-dot"></span>
+        </a>
+
+        <nav class="desktop-nav" aria-label="Primary Navigation">
+          <ul class="nav-list">
+            <li class="nav-item"><a href="collection.html?filter=new" class="nav-link">NEW ARRIVALS</a></li>
+            <li class="nav-item"><a href="collection.html?gender=men" class="nav-link">MEN</a></li>
+            <li class="nav-item"><a href="collection.html?gender=women" class="nav-link">WOMEN</a></li>
+            <li class="nav-item"><a href="collection.html" class="nav-link">COLLECTIONS</a></li>
+            <li class="nav-item"><a href="collection.html?filter=bestsellers" class="nav-link">BEST SELLERS</a></li>
+            <li class="nav-item"><a href="collection.html?filter=sale" class="nav-link is-sale">SALE</a></li>
+          </ul>
+        </nav>
+
+        <div class="header-actions">
+          <button type="button" class="action-btn search-trigger" aria-label="Search store">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+          <a href="#" class="action-btn" aria-label="Customer Account">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </a>
+          <a href="#" class="action-btn" onclick="Vaunt.showToast('Wishlist feature active.'); return false;" aria-label="Wishlist">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+            <span class="action-badge wishlist-badge is-empty">0</span>
+          </a>
+          <button type="button" class="action-btn cart-drawer-trigger" aria-label="Shopping Cart">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            <span class="action-badge cart-badge is-empty">0</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav-drawer" id="mobileNavDrawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
+    <div class="mobile-nav-backdrop"></div>
+    <div class="mobile-nav-panel">
+      <div class="mobile-nav-header">
+        <span class="site-logo">VAUNT<span class="accent-dot"></span></span>
+        <button type="button" class="action-btn mobile-nav-close" aria-label="Close menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+      <div class="mobile-nav-body">
+        <ul class="mobile-nav-list">
+          <li class="mobile-nav-item"><a href="collection.html?filter=new" class="mobile-nav-button">NEW ARRIVALS</a></li>
+          <li class="mobile-nav-item"><a href="collection.html?gender=men" class="mobile-nav-button">MEN</a></li>
+          <li class="mobile-nav-item"><a href="collection.html?gender=women" class="mobile-nav-button">WOMEN</a></li>
+          <li class="mobile-nav-item"><a href="collection.html" class="mobile-nav-button">ALL COLLECTIONS</a></li>
+          <li class="mobile-nav-item"><a href="collection.html?filter=bestsellers" class="mobile-nav-button">BEST SELLERS</a></li>
+          <li class="mobile-nav-item"><a href="collection.html?filter=sale" class="mobile-nav-button" style="color: var(--color-sale);">SALE</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <main id="MainContent" role="main">
+
+    <!-- ========================================================================
+         COLLECTION HERO BANNER
+         ======================================================================== -->
+    <section class="collection-hero">
+      <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1800&q=80" alt="Collection Banner" class="collection-hero-bg">
+      <div class="collection-hero-content">
+        <span class="section-eyebrow" style="color: var(--color-accent);">SEASON 2026</span>
+        <h1 class="collection-hero-title" id="collectionTitle">ALL PRODUCTS</h1>
+        <p class="collection-hero-desc" id="collectionDescription">Refined silhouettes designed for purposeful movement. Heavyweight cottons, technical outer layers, and sculpted everyday tailoring.</p>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         COLLECTION CONTENT & FILTER SIDEBAR
+         ======================================================================== -->
+    <div class="container section-spacing">
+      
+      <!-- Toolbar -->
+      <div class="collection-toolbar">
+        <div class="toolbar-left">
+          <button type="button" class="mobile-filter-trigger" id="mobileFilterTrigger">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+            Filters
+          </button>
+          <span class="filter-count" id="collectionProductCount">Showing products</span>
+        </div>
+
+        <div class="toolbar-right">
+          <div class="sort-select-wrapper">
+            <label for="sortSelect">SORT BY:</label>
+            <select id="sortSelect" class="sort-select">
+              <option value="featured">Featured</option>
+              <option value="best-selling">Best Selling</option>
+              <option value="newest">Newest First</option>
+              <option value="price-ascending">Price: Low to High</option>
+              <option value="price-descending">Price: High to Low</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Grid with Sidebar -->
+      <div class="collection-layout">
+        
+        <!-- Sidebar Filters -->
+        <aside class="collection-sidebar" aria-label="Collection filters">
+          <button type="button" class="close-sidebar-btn" aria-label="Close filters">✕ Close</button>
+
+          <!-- Gender Filter -->
+          <div>
+            <h4 class="filter-group-title">GENDER</h4>
+            <div class="filter-gender-tabs">
+              <button type="button" class="filter-gender-btn is-active" data-filter-gender="all">ALL</button>
+              <button type="button" class="filter-gender-btn" data-filter-gender="men">MEN</button>
+              <button type="button" class="filter-gender-btn" data-filter-gender="women">WOMEN</button>
+            </div>
+          </div>
+
+          <!-- Category Filter -->
+          <div>
+            <h4 class="filter-group-title">CATEGORY</h4>
+            <select id="filterCategory" class="filter-select">
+              <option value="all">All Categories</option>
+              <option value="hoodies">Hoodies & Sweats</option>
+              <option value="jackets">Jackets & Blazers</option>
+              <option value="pants">Pants & Cargo</option>
+              <option value="t-shirts">T-Shirts</option>
+              <option value="shirts">Shirts</option>
+              <option value="polo">Polo</option>
+              <option value="dresses">Dresses</option>
+              <option value="shorts">Shorts</option>
+              <option value="activewear">Activewear</option>
+              <option value="accessories">Accessories</option>
+            </select>
+          </div>
+
+          <!-- Style Aesthetic Filter -->
+          <div>
+            <h4 class="filter-group-title">STYLE / AESTHETIC</h4>
+            <select id="filterStyle" class="filter-select">
+              <option value="all">All Styles</option>
+              <option value="streetwear">Streetwear</option>
+              <option value="casual">Casual</option>
+              <option value="active">Active</option>
+              <option value="premium">Premium</option>
+              <option value="essentials">Essentials</option>
+            </select>
+          </div>
+
+          <!-- Size Filter -->
+          <div>
+            <h4 class="filter-group-title">SIZE</h4>
+            <div class="filter-size-grid">
+              <button type="button" class="filter-size-btn" data-filter-size="XS">XS</button>
+              <button type="button" class="filter-size-btn" data-filter-size="S">S</button>
+              <button type="button" class="filter-size-btn" data-filter-size="M">M</button>
+              <button type="button" class="filter-size-btn" data-filter-size="L">L</button>
+              <button type="button" class="filter-size-btn" data-filter-size="XL">XL</button>
+              <button type="button" class="filter-size-btn" data-filter-size="XXL">XXL</button>
+            </div>
+          </div>
+
+          <!-- Price Range Slider -->
+          <div>
+            <div class="filter-group-title">
+              <span>MAX PRICE</span>
+              <span id="priceRangeValue" style="color: var(--color-foreground-muted); font-size: 11px;">LKR 35,000</span>
+            </div>
+            <input type="range" class="filter-range" id="priceRangeSlider" min="5000" max="35000" step="1000" value="35000">
+          </div>
+
+          <!-- Availability / Sale Only -->
+          <div>
+            <label class="filter-checkbox-wrap">
+              <input type="checkbox" id="filterSaleOnly">
+              <span>On Sale Only</span>
+            </label>
+          </div>
+
+          <!-- Reset Button -->
+          <div>
+            <button type="button" class="btn btn-secondary btn-block btn-sm" id="clearFiltersBtn">
+              Reset Filters
+            </button>
+          </div>
+
+        </aside>
+
+        <!-- Product Grid (4 desktop, 3 tablet, 2 mobile) -->
+        <div>
+          <div class="product-grid cols-4" id="collectionProductGrid">
+            <!-- Rendered by collection.js -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-main">
+        <div class="footer-brand-col">
+          <span class="site-logo">VAUNT<span class="accent-dot"></span></span>
+          <p class="footer-tagline">Architectural silhouettes, heavyweight organic textiles, and refined contemporary luxury engineered for modern life.</p>
+        </div>
+        <div>
+          <h4 class="footer-heading">SHOP</h4>
+          <ul class="footer-links">
+            <li><a href="collection.html?gender=men" class="footer-link">Men</a></li>
+            <li><a href="collection.html?gender=women" class="footer-link">Women</a></li>
+            <li><a href="collection.html?filter=new" class="footer-link">New Arrivals</a></li>
+            <li><a href="collection.html?filter=bestsellers" class="footer-link">Best Sellers</a></li>
+            <li><a href="collection.html?filter=sale" class="footer-link">Sale</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">HELP</h4>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link">Contact Us</a></li>
+            <li><a href="#" class="footer-link">FAQ</a></li>
+            <li><a href="#" class="footer-link">Shipping & Delivery</a></li>
+            <li><a href="#" class="footer-link">Returns & Exchanges</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">ABOUT</h4>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link">Our Story</a></li>
+            <li><a href="#" class="footer-link">Sustainability</a></li>
+            <li><a href="#" class="footer-link">Careers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">LEGAL</h4>
+          <ul class="footer-links">
+            <li><a href="#" class="footer-link">Privacy Policy</a></li>
+            <li><a href="#" class="footer-link">Terms & Conditions</a></li>
+            <li><a href="#" class="footer-link">Refund Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-inner">
+          <p>&copy; 2026 VAUNT ATELIER. ALL RIGHTS RESERVED.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Shared Drawers / Modals -->
+  <div class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-label="Shopping Cart">
+    <div class="cart-backdrop"></div>
+    <div class="cart-panel">
+      <div class="cart-header">
+        <h3 class="cart-title">YOUR CART</h3>
+        <button type="button" class="cart-close-btn" aria-label="Close cart">✕</button>
+      </div>
+      <div class="shipping-progress-container">
+        <div class="shipping-progress-text"><span>You are <strong>LKR 10,000</strong> away from <strong>FREE SHIPPING</strong></span></div>
+        <div class="shipping-progress-bar"><div class="shipping-progress-fill"></div></div>
+      </div>
+      <div class="cart-body">
+        <div class="cart-empty">
+          <h4 class="cart-empty-title">YOUR CART IS EMPTY</h4>
+          <p class="cart-empty-desc">Discover our latest drop and elevate your everyday wardrobe.</p>
+        </div>
+        <div class="cart-items-list" style="display: none;"></div>
+      </div>
+      <div class="cart-footer">
+        <div class="cart-subtotal-row"><span>SUBTOTAL</span><span class="cart-subtotal-amount">LKR 0</span></div>
+        <button type="button" class="btn btn-primary btn-block cart-checkout-btn" onclick="Vaunt.showToast('Redirecting to Shopify Checkout...')">CHECKOUT</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="quickViewModal" role="dialog" aria-modal="true" aria-label="Product Quick View">
+    <div class="modal-backdrop"></div>
+    <div class="modal-dialog">
+      <button type="button" class="modal-close-btn" aria-label="Close modal">✕</button>
+      <div class="quickview-layout">
+        <div class="quickview-gallery"></div>
+        <div class="quickview-info"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search Store">
+    <div class="search-header">
+      <span class="site-logo">VAUNT<span class="accent-dot"></span></span>
+      <button type="button" class="action-btn search-close-btn" aria-label="Close search">✕</button>
+    </div>
+    <div class="search-body">
+      <div class="search-input-wrap">
+        <input type="text" class="search-input" id="mainSearchInput" placeholder="What are you looking for?">
+      </div>
+      <div class="search-results-grid" id="searchResultsGrid"></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="sizeGuideModal" role="dialog" aria-modal="true" aria-label="Size Guide">
+    <div class="modal-backdrop" onclick="Vaunt.closeSizeGuide()"></div>
+    <div class="modal-dialog" style="max-width: 680px; padding: 32px;">
+      <button type="button" class="modal-close-btn" onclick="Vaunt.closeSizeGuide()">✕</button>
+      <h3 style="font-family: var(--font-family-display); font-size: 1.5rem; text-transform: uppercase; margin-bottom: 8px;">SIZE GUIDE</h3>
+      <p style="font-size: 13px; color: var(--color-foreground-muted); margin-bottom: 20px;">All garments are cut in standard international sizing.</p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/catalog-data.js"></script>
+  <script src="assets/theme.js"></script>
+  <script src="assets/collection.js"></script>
+</body>
+</html>
